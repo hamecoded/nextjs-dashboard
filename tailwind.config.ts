@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+let plugin = require('tailwindcss/plugin')
 
 const config: Config = {
   content: [
@@ -8,6 +9,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      data: {
+        checked: 'ui~="checked"',
+      },
+      aria: {
+        asc: 'sort="ascending"',
+        desc: 'sort="descending"',
+      },
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
@@ -27,6 +35,12 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    plugin(function ({ addVariant }: { addVariant: any }) {
+      // Add a `third` variant, ie. `third:pb-0`
+      addVariant('third', '&:nth-child(3)')
+    }),
+  ],
 };
 export default config;
